@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Pastas BIM 360{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Escolha o projeto pertinente abaixo:</h1>
+    {% for projeto in projetos %}
+    <p><a href="{% url 'topfolders' projeto %}">{{ projeto.nome }}</a></p>
+    {% endfor %}
+</div>
+{% endblock %}

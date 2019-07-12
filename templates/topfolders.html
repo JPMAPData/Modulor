@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Topfolders{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Selecione a pasta</h1>
+    {% for pasta in pastas %}
+    <p><a href="{% url 'folders' pasta %}">Pasta : {{ pasta.nome }}!</a> </p>
+    {% endfor %}
+</div>
+{% endblock %}
