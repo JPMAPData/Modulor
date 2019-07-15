@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
 from .models import Projeto, Conteudo
 from django.contrib.auth.decorators import login_required
 import requests
@@ -32,19 +32,19 @@ def projects_list(request):
 
     resposta_pjt = getRespJson("https://developer.api.autodesk.com/project/v1/hubs/" + hubId + "/projects", token)
 
-    projetos_list = []
+    Projeto.objects.all().delete()
 
     for element in resposta_pjt['data']:
         if element['type'] == 'projects':
             pjt = Projeto()
             pjt.nome = element['attributes']['name']
-            pjt.ident = element['id']
+            pjt.identity = element['id']
             pjt.hubId = hubId
-            projetos_list.append(pjt)
+            pjt.save()
         else:
             pass
 
-    projetos = projetos_list
+    projetos = Projeto.objects.all()
     return render(request, 'projects.html', {'projetos': projetos})
 
 
@@ -67,19 +67,23 @@ def topfolders(request, projeto):
         else:
             return resp.status_code
 
-    resposta_pasta = getRespJson("https://developer.api.autodesk.com/project/v1/hubs/" + projeto.hubId + "/projects/" + projeto.ident + "/topFolders", token)
+    pojeto = Projeto.objects.get(nome=projeto)
 
-    pastas = []
+    resposta_pasta = getRespJson("https://developer.api.autodesk.com/project/v1/hubs/" + pojeto.hubId + "/projects/" + pojeto.identity + "/topFolders", token)
+
+    Conteudo.objects.all().delete()
 
     for topfolder in resposta_pasta['data']:
         if topfolder['type'] == 'folders':
             cont = Conteudo()
             cont.nome = topfolder['attributes']['name']
-            cont.ident = topfolder['id']
-            cont.pjtId = projeto.ident
-            pastas.append(cont)
+            cont.identity = topfolder['id']
+            cont.pjtId = pojeto.identity
+            cont.save()
         else:
             pass
+
+    pastas = Conteudo.objects.all()
 
     return render(request, 'topfolders.html', {'pastas': pastas})
 
@@ -103,17 +107,22 @@ def folders_list(request, folder):
         else:
             return resp.status_code
 
-    resposta_obj = getRespJson("https://developer.api.autodesk.com/data/v1/projects/" + folder.pjtId + "/folders/" + folder.ident + "/contents", token)
+    conte = Conteudo.objects.get(nome=folder)
 
-    folders = []
+    resposta_obj = getRespJson("https://developer.api.autodesk.com/data/v1/projects/" + conte.pjtId + "/folders/" + conte.identity + "/contents", token)
+
+    Conteudo.objects.all().delete()
 
     for content in resposta_obj['data']:
         if content['type'] == 'folders':
             contenido = Conteudo()
             contenido.nome = content['attributes']['name']
-            contenido.ident = content['id']
-            contenido.pjtId = folder.pjtId
-            folders.append(contenido)
+            contenido.identity = content['id']
+            contenido.pjtId = conte.identity
+            contenido.save()
+        else:
+            pass
+
+    folders = Conteudo.objects.all()
 
     return render(request, 'folders.html', {'folders': folders})
-

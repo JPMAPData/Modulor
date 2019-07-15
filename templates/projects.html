@@ -6,7 +6,7 @@
 <div>
     <h1>Escolha o projeto pertinente abaixo:</h1>
     {% for projeto in projetos %}
-    <p><a href="{% url 'topfolders' projeto %}">{{ projeto.nome }}</a></p>
+    <p><a href="{% url 'topfolders' projeto.nome %}">{{ projeto.nome }}</a></p>
     {% endfor %}
 </div>
 {% endblock %}

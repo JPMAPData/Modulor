@@ -1,17 +1,15 @@
 from django.db import models
 
-# Create your models here.
 
 class Projeto(models.Model):
 
-    def __init__(self):
-        self.nome = ""
-        self.ident = ""
-        self.hubId = ""
+    nome = models.CharField(max_length=300, default="")
+    identity = models.CharField(max_length=300, default="")
+    hubId = models.CharField(max_length=300, default="")
+
 
 class Conteudo(models.Model):
 
-    def __init__(self):
-        self.nome = ""
-        self.ident = ""
-        self.pjtId = ""
+    nome = models.CharField(max_length=300, default="")
+    identity = models.CharField(max_length=300, default="")
+    pjtId = models.CharField(max_length=300, default="")
