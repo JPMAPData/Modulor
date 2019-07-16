@@ -6,7 +6,7 @@
 <div>
     <h1>Selecione a pasta abaixo:</h1>
     {% for folder in folders %}
-    <p><a href="{% url 'folders' folder.nome %}">Pasta {{ folder.nome }}</a></p>
+    <p><a href="{% url 'folders' folder.nome %}">Pasta {{ folder.nome }}</a> <a href="{% url 'upload' %}"> upload </a> </p>
     {% endfor %}
 </div>
 {% endblock %}

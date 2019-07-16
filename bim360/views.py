@@ -126,3 +126,7 @@ def folders_list(request, folder):
     folders = Conteudo.objects.all()
 
     return render(request, 'folders.html', {'folders': folders})
+
+@login_required
+def upload(request):
+    return render(request, 'upload.html')

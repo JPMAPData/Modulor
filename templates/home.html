@@ -6,9 +6,10 @@
 <div>
 {% if user.is_authenticated %}
     <p>Bem vindo, {{ user.username }}!</p>
+    <p><a href="{% url 'projects' %}">seguir para a seleção da pasta</a></p>
     <p><a href="{% url 'logout' %}">logout</a></p>
 {% else %}
-    <p>You are not logged in</p>
+    <p>Por favor, realize a autenticação abaixo:</p>
     <a href="{% url 'login' %}">login</a>
 {% endif %}
 </div>
